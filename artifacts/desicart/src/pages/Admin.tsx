@@ -484,19 +484,51 @@ function ProductRow({
 }) {
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState<Product>(product);
+  const [newImageUrl, setNewImageUrl] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => setDraft(product), [product, open]);
+  useEffect(() => {
+    setDraft(product);
+    setNewImageUrl("");
+  }, [product, open]);
 
-  const onPickImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      const dataUrl = reader.result as string;
-      setDraft((d) => ({ ...d, images: [dataUrl, ...d.images.slice(1)] }));
-    };
-    reader.readAsDataURL(file);
+  const readFileAsDataUrl = (file: File): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = () => reject(reader.error);
+      reader.readAsDataURL(file);
+    });
+
+  const onPickImages = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files ?? []);
+    if (!files.length) return;
+    const dataUrls = await Promise.all(files.map(readFileAsDataUrl));
+    setDraft((d) => ({ ...d, images: [...d.images, ...dataUrls] }));
+    if (fileRef.current) fileRef.current.value = "";
+  };
+
+  const addImageUrl = () => {
+    const url = newImageUrl.trim();
+    if (!url) return;
+    setDraft((d) => ({ ...d, images: [...d.images, url] }));
+    setNewImageUrl("");
+  };
+
+  const removeImage = (idx: number) => {
+    setDraft((d) => {
+      const next = d.images.filter((_, i) => i !== idx);
+      return { ...d, images: next.length ? next : ["/images/earbuds-1.png"] };
+    });
+  };
+
+  const setMainImage = (idx: number) => {
+    setDraft((d) => {
+      if (idx === 0) return d;
+      const next = [...d.images];
+      const [picked] = next.splice(idx, 1);
+      return { ...d, images: [picked, ...next] };
+    });
   };
 
   const save = () => {
@@ -627,33 +659,99 @@ function ProductRow({
               </div>
 
               <div className="space-y-3">
-                <Label>Main Image</Label>
-                <div className="aspect-square bg-white rounded-xl border flex items-center justify-center overflow-hidden">
-                  <img src={draft.images[0]} alt="" className="max-w-full max-h-full object-contain mix-blend-multiply" />
+                <div className="flex items-center justify-between">
+                  <Label className="m-0">Product Images ({draft.images.length})</Label>
+                  <span className="text-[10px] text-gray-500">First image = main</span>
                 </div>
-                <div className="flex gap-2">
-                  <Button type="button" variant="outline" className="flex-1" onClick={() => fileRef.current?.click()}>
-                    <Upload className="w-4 h-4 mr-2" />
-                    Upload Image
-                  </Button>
-                  <input
-                    ref={fileRef}
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={onPickImage}
-                  />
+
+                {/* Image gallery grid */}
+                <div className="grid grid-cols-3 gap-2">
+                  {draft.images.map((src, idx) => (
+                    <div
+                      key={`${idx}-${src.slice(0, 30)}`}
+                      className={`group relative aspect-square bg-white rounded-xl border-2 overflow-hidden ${
+                        idx === 0 ? "border-primary" : "border-gray-200"
+                      }`}
+                    >
+                      <img src={src} alt="" className="w-full h-full object-contain mix-blend-multiply" />
+                      {idx === 0 && (
+                        <span className="absolute top-1 left-1 bg-primary text-white text-[9px] font-bold uppercase px-1.5 py-0.5 rounded">
+                          Main
+                        </span>
+                      )}
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1">
+                        {idx !== 0 && (
+                          <button
+                            type="button"
+                            onClick={() => setMainImage(idx)}
+                            className="bg-white text-black text-[10px] font-bold px-2 py-1 rounded hover:bg-primary hover:text-white"
+                            title="Set as main"
+                          >
+                            Set Main
+                          </button>
+                        )}
+                        <button
+                          type="button"
+                          onClick={() => removeImage(idx)}
+                          className="bg-red-600 text-white p-1 rounded hover:bg-red-700"
+                          title="Remove image"
+                        >
+                          <Trash2 className="w-3 h-3" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+
+                  {/* Add slot */}
+                  <button
+                    type="button"
+                    onClick={() => fileRef.current?.click()}
+                    className="aspect-square bg-white rounded-xl border-2 border-dashed border-gray-300 hover:border-primary hover:bg-primary/5 flex flex-col items-center justify-center gap-1 text-gray-500 hover:text-primary transition-colors"
+                  >
+                    <Plus className="w-5 h-5" />
+                    <span className="text-[10px] font-semibold">Add Photos</span>
+                  </button>
                 </div>
+
+                <input
+                  ref={fileRef}
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className="hidden"
+                  onChange={onPickImages}
+                />
+
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => fileRef.current?.click()}
+                >
+                  <Upload className="w-4 h-4 mr-2" />
+                  Upload Multiple Images
+                </Button>
+
                 <div>
-                  <Label>Or paste image URL</Label>
-                  <Input
-                    value={draft.images[0] ?? ""}
-                    onChange={(e) =>
-                      setDraft({ ...draft, images: [e.target.value, ...draft.images.slice(1)] })
-                    }
-                    placeholder="https://..."
-                  />
+                  <Label className="text-xs">Or paste image URL</Label>
+                  <div className="flex gap-2 mt-1">
+                    <Input
+                      value={newImageUrl}
+                      onChange={(e) => setNewImageUrl(e.target.value)}
+                      placeholder="https://..."
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          addImageUrl();
+                        }
+                      }}
+                    />
+                    <Button type="button" variant="outline" onClick={addImageUrl}>
+                      <Plus className="w-4 h-4" />
+                    </Button>
+                  </div>
                 </div>
+
                 <div>
                   <Label>Slug (URL)</Label>
                   <Input value={draft.slug} onChange={(e) => setDraft({ ...draft, slug: e.target.value })} />
