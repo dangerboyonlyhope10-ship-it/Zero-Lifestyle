@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
 import { useCart } from "@/lib/CartContext";
+import { useSite, PaymentLabel } from "@/lib/SiteContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -63,7 +64,9 @@ const paymentOptions: PaymentOption[] = [
 
 export default function Checkout() {
   const { items, subtotal, clearCart } = useCart();
+  const { addOrder } = useSite();
   const [, setLocation] = useLocation();
+  const [savedOrderId, setSavedOrderId] = useState("");
   const [error, setError] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const [isPlacing, setIsPlacing] = useState(false);
@@ -158,6 +161,32 @@ export default function Checkout() {
     // Open WhatsApp in a new tab — must happen synchronously to avoid popup blockers
     window.open(whatsappUrl, "_blank", "noopener,noreferrer");
 
+    // Save the order to the admin order book
+    addOrder({
+      id: orderId,
+      customer: {
+        fullName: formData.fullName.trim(),
+        phone: formData.phone.trim(),
+        city: formData.city.trim(),
+        address: formData.address.trim(),
+        notes: formData.notes.trim() || undefined,
+      },
+      items: items.map((it) => ({
+        productId: it.product.id,
+        name: it.product.name,
+        image: it.product.images[0],
+        price: it.product.price,
+        quantity: it.quantity,
+        lineTotal: it.product.price * it.quantity,
+      })),
+      subtotal,
+      onlineDiscount,
+      total,
+      paymentMethod: selectedPayment.label as PaymentLabel,
+    });
+
+    setSavedOrderId(orderId);
+
     // Show confirmation animation, then clear cart
     setTimeout(() => {
       setIsSuccess(true);
@@ -198,6 +227,17 @@ export default function Checkout() {
           >
             Your order has been sent to our WhatsApp team.
           </motion.p>
+          {savedOrderId && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="bg-gray-50 border border-gray-200 rounded-xl py-2 px-4 inline-block mb-2"
+            >
+              <span className="text-xs text-gray-500 mr-2">Order ID:</span>
+              <span className="font-mono font-bold text-sm text-black">{savedOrderId}</span>
+            </motion.div>
+          )}
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}

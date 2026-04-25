@@ -1,11 +1,12 @@
 import { Link } from "wouter";
 import { motion } from "framer-motion";
-import { products } from "@/data/products";
 import { ProductCard } from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
 import { Star } from "lucide-react";
 import useEmblaCarousel from "embla-carousel-react";
 import { useEffect } from "react";
+import { useSite } from "@/lib/SiteContext";
+import { SaleTimer } from "@/components/SaleTimer";
 
 const categories = [
   { name: "Smart Watches", image: "/images/smartwatch-1.png", slug: "smart-watches" },
@@ -36,6 +37,7 @@ const testimonials = [
 ];
 
 export default function Home() {
+  const { products, hero } = useSite();
   const [emblaRef, emblaApi] = useEmblaCarousel({ align: "start", loop: true });
 
   useEffect(() => {
@@ -48,6 +50,7 @@ export default function Home() {
 
   const bestSellers = products.filter(p => p.badge === "Bestseller" || p.rating >= 4.8).slice(0, 4);
   const newArrivals = products.filter(p => p.badge === "New" || p.category === "Headphones").slice(0, 4);
+  const heroTitleLines = hero.title.split("\n");
 
   return (
     <div className="w-full">
@@ -62,16 +65,18 @@ export default function Home() {
             transition={{ duration: 0.5 }}
             className="w-3/5 md:w-1/2 text-left z-20"
           >
-            <span className="text-primary font-bold tracking-widest uppercase text-[10px] md:text-xs mb-2 block">New Launch</span>
+            <span className="text-primary font-bold tracking-widest uppercase text-[10px] md:text-xs mb-2 block">{hero.badge}</span>
             <h1 className="text-2xl sm:text-3xl md:text-5xl font-serif font-bold text-black mb-2 leading-tight">
-              Opal Pro<br />Earbuds
+              {heroTitleLines.map((line, i) => (
+                <span key={i} className="block">{line}</span>
+              ))}
             </h1>
             <p className="hidden sm:block text-gray-600 text-sm md:text-base mb-4 max-w-md">
-              Silence the noise. Amplify the music. 40 hours of pure audio.
+              {hero.subtitle}
             </p>
-            <Link href="/product/opal-pro-earbuds">
+            <Link href={hero.ctaLink}>
               <Button size="sm" className="rounded-full px-5 md:px-7 text-sm md:text-base h-9 md:h-11 bg-primary hover:bg-primary/90 text-white">
-                Shop Now
+                {hero.ctaLabel}
               </Button>
             </Link>
           </motion.div>
@@ -83,14 +88,17 @@ export default function Home() {
             className="w-2/5 md:w-1/2 h-full relative"
           >
             <img
-              src="/images/hero-earbuds.png"
-              alt="Opal Pro Earbuds"
+              src={hero.image}
+              alt={hero.title}
               className="w-full h-full object-contain mix-blend-multiply"
               loading="eager"
             />
           </motion.div>
         </div>
       </section>
+
+      {/* Sale countdown */}
+      <SaleTimer />
 
       {/* Categories Strip - compact */}
       <section className="py-4 md:py-6 bg-white border-b">

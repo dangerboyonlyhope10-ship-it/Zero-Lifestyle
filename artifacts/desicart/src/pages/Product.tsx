@@ -1,5 +1,5 @@
 import { useParams, useLocation } from "wouter";
-import { products } from "@/data/products";
+import { useSite } from "@/lib/SiteContext";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Star, Check, Shield, Truck, Minus, Plus, ShoppingCart, Zap, MessageCircle } from "lucide-react";
@@ -11,6 +11,7 @@ import { motion } from "framer-motion";
 export default function Product() {
   const { slug } = useParams();
   const [, setLocation] = useLocation();
+  const { products } = useSite();
   const product = products.find((p) => p.slug === slug);
   const [qty, setQty] = useState(1);
   const { addItem } = useCart();

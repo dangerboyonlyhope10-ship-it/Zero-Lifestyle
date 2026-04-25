@@ -1,5 +1,5 @@
 import { useParams, Link } from "wouter";
-import { products } from "@/data/products";
+import { useSite } from "@/lib/SiteContext";
 import { ProductCard } from "@/components/ProductCard";
 import {
   Select,
@@ -12,6 +12,7 @@ import { useState } from "react";
 
 export default function Category() {
   const { slug } = useParams();
+  const { products } = useSite();
   const [sortBy, setSortBy] = useState("recommended");
 
   let categoryProducts = products;
