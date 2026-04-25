@@ -51,74 +51,79 @@ export default function Home() {
 
   return (
     <div className="w-full">
-      {/* Hero Section */}
-      <section className="relative w-full h-[600px] md:h-[700px] bg-[#fdfaf5] overflow-hidden flex items-center">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#ffe4c4]/50 to-transparent z-0 pointer-events-none" />
-        
-        <div className="container mx-auto px-4 relative z-10 flex flex-col md:flex-row items-center justify-between h-full pt-8 md:pt-0">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+      {/* Hero Section - compact */}
+      <section className="relative w-full h-[260px] sm:h-[300px] md:h-[360px] bg-[#fdfaf5] overflow-hidden flex items-center">
+        <div className="absolute inset-0 bg-gradient-to-r from-[#ffe4c4]/60 to-transparent z-0 pointer-events-none" />
+
+        <div className="container mx-auto px-4 relative z-10 flex flex-row items-center justify-between h-full">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="w-full md:w-1/2 text-center md:text-left z-20"
+            transition={{ duration: 0.5 }}
+            className="w-3/5 md:w-1/2 text-left z-20"
           >
-            <span className="text-primary font-bold tracking-widest uppercase text-sm mb-4 block">New Launch</span>
-            <h1 className="text-5xl md:text-7xl font-serif font-bold text-black mb-4 leading-tight">
+            <span className="text-primary font-bold tracking-widest uppercase text-[10px] md:text-xs mb-2 block">New Launch</span>
+            <h1 className="text-2xl sm:text-3xl md:text-5xl font-serif font-bold text-black mb-2 leading-tight">
               Opal Pro<br />Earbuds
             </h1>
-            <p className="text-gray-600 text-lg md:text-xl mb-8 max-w-md mx-auto md:mx-0">
-              Silence the noise. Amplify the music. Experience 40 hours of pure, uninterrupted audio.
+            <p className="hidden sm:block text-gray-600 text-sm md:text-base mb-4 max-w-md">
+              Silence the noise. Amplify the music. 40 hours of pure audio.
             </p>
             <Link href="/product/opal-pro-earbuds">
-              <Button size="lg" className="rounded-full px-8 text-lg h-14 bg-primary hover:bg-primary/90 text-white">
+              <Button size="sm" className="rounded-full px-5 md:px-7 text-sm md:text-base h-9 md:h-11 bg-primary hover:bg-primary/90 text-white">
                 Shop Now
               </Button>
             </Link>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="w-full md:w-1/2 h-[300px] md:h-[500px] relative mt-8 md:mt-0"
+            transition={{ duration: 0.7, delay: 0.15 }}
+            className="w-2/5 md:w-1/2 h-full relative"
           >
-            <img 
-              src="/images/hero-earbuds.png" 
-              alt="Opal Pro Earbuds" 
+            <img
+              src="/images/hero-earbuds.png"
+              alt="Opal Pro Earbuds"
               className="w-full h-full object-contain mix-blend-multiply"
-              loading="lazy"
+              loading="eager"
             />
           </motion.div>
         </div>
       </section>
 
-      {/* Categories Strip */}
-      <section className="py-12 bg-white border-b">
-        <div className="container mx-auto px-4">
-          <div className="flex overflow-x-auto hide-scrollbar gap-6 md:gap-12 justify-start md:justify-center px-4 snap-x">
+      {/* Categories Strip - compact */}
+      <section className="py-4 md:py-6 bg-white border-b">
+        <div className="container mx-auto px-3">
+          <div className="flex overflow-x-auto hide-scrollbar gap-5 md:gap-10 justify-start md:justify-center snap-x">
             {categories.map((category) => (
-              <Link key={category.name} href={`/category/${category.slug}`} className="flex flex-col items-center gap-3 min-w-[80px] snap-center group">
-                <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gray-50 flex items-center justify-center p-4 border border-gray-100 group-hover:border-primary transition-colors">
+              <Link key={category.name} href={`/category/${category.slug}`} className="flex flex-col items-center gap-2 min-w-[68px] snap-center group">
+                <div className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-gray-50 flex items-center justify-center p-2.5 border border-gray-100 group-hover:border-primary transition-colors">
                   <img src={category.image} alt={category.name} className="w-full h-full object-contain mix-blend-multiply group-hover:scale-110 transition-transform" />
                 </div>
-                <span className="text-sm font-medium text-center whitespace-nowrap">{category.name}</span>
+                <span className="text-xs md:text-sm font-medium text-center whitespace-nowrap">{category.name}</span>
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Best Sellers */}
-      <section className="py-16 md:py-24 bg-white">
+      {/* Hot Selling - first on the page so visible immediately */}
+      <section className="py-6 md:py-10 bg-white">
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between mb-8 md:mb-12">
-            <h2 className="text-2xl md:text-4xl font-bold">Trending Now</h2>
+          <div className="flex items-center justify-between mb-4 md:mb-6">
+            <div>
+              <span className="inline-block bg-red-50 text-primary text-[10px] md:text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-full mb-1">
+                🔥 Hot Selling
+              </span>
+              <h2 className="text-xl md:text-3xl font-bold">Trending Now</h2>
+            </div>
             <Link href="/category/all" className="text-primary font-medium hover:underline text-sm md:text-base">
               View All
             </Link>
           </div>
-          
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
             {bestSellers.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
