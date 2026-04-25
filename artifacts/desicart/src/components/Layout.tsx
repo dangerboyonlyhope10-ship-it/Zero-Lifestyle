@@ -2,7 +2,6 @@ import { ReactNode } from "react";
 import { PromoBar } from "./PromoBar";
 import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
-import { FloatingWhatsApp } from "./FloatingWhatsApp";
 
 export function Layout({ children }: { children: ReactNode }) {
   return (
@@ -11,7 +10,6 @@ export function Layout({ children }: { children: ReactNode }) {
       <Navbar />
       <main className="flex-1">{children}</main>
       <Footer />
-      <FloatingWhatsApp />
     </div>
   );
 }
