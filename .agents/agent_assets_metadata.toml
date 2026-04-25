@@ -1,0 +1,38 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "ghmiwKhE1iBpU6n6an2XM"
+uri = "file://artifacts/desicart/public/images/hero-earbuds.png"
+type = "image"
+title = "Hero earbuds warm amber"
+
+[[generated]]
+id = "madBFtEA5FYnLxVSNDDWu"
+uri = "file://artifacts/desicart/public/images/smartwatch-1.png"
+type = "image"
+title = "Smartwatch dark modern"
+
+[[generated]]
+id = "Dqm7LOM89bTOMa9PtJsrK"
+uri = "file://artifacts/desicart/public/images/headphones-1.png"
+type = "image"
+title = "Headphones silver premium"
+
+[[generated]]
+id = "TtSqSSCXwQDyeibR6BRWr"
+uri = "file://artifacts/desicart/public/images/speaker-1.png"
+type = "image"
+title = "Bluetooth speaker rugged"
+
+[[generated]]
+id = "VNSf0eCT7AVSYDoyYRMMT"
+uri = "file://artifacts/desicart/public/images/earbuds-1.png"
+type = "image"
+title = "Earbuds white minimal"
+
+[[generated]]
+id = "DtsMF7qImZBU8WREfYigD"
+uri = "file://artifacts/desicart/public/images/smartwatch-2.png"
+type = "image"
+title = "Smartwatch sport red"

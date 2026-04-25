@@ -1,0 +1,173 @@
+You are a senior full-stack engineer, UI/UX expert, and production-level product builder.
+
+Your task is to build a COMPLETE, production-ready, mobile-first eCommerce web app named "DesiCart".
+
+This must NOT look like a template or demo.
+It must behave like a real, high-conversion lifestyle product store with premium UI/UX and complete buying flow.
+
+--------------------------------------------------
+
+STRICT RULES (NO SHORTCUTS)
+
+- Do NOT simplify UI
+- Do NOT skip any feature
+- Do NOT leave placeholders
+- Do NOT generate dummy logic
+- Every button, interaction, and flow must work
+- If anything is incomplete, fix it before finishing output
+
+--------------------------------------------------
+
+1. MOBILE-FIRST (TOP PRIORITY)
+
+Design strictly for mobile first.
+
+Mobile requirements:
+- On first load, EXACTLY 4 products must be visible in viewport
+- Layout must ensure user sees 4 product cards without scrolling
+- Smooth vertical scrolling after that
+- Large touch-friendly buttons
+- Sticky bottom bar with actions (Cart / Buy / WhatsApp)
+
+--------------------------------------------------
+
+2. HOMEPAGE (HIGH-CONVERSION STRUCTURE)
+
+Build sections in this order:
+
+- Hero Section
+  - Clean banner
+  - Strong CTA button (Shop Now)
+
+- Product Grid
+  - Mobile: exactly 4 products visible initially
+  - Product card must include:
+    - Image
+    - Product Name
+    - Price
+    - Discount badge
+    - “Buy Now” button
+
+- Categories (horizontal scroll)
+
+- Best Sellers / Trending
+
+- Testimonials / Reviews
+
+- Footer (contact, policies, links)
+
+--------------------------------------------------
+
+3. PRODUCT PAGE (DETAILED & FUNCTIONAL)
+
+Each product page must include:
+
+- Swipeable image gallery (mobile optimized)
+- Product title and pricing
+- Discount display
+- Quantity selector (+ / - buttons)
+
+- REAL-TIME PRICE UPDATE:
+  When quantity increases, total price must update instantly
+
+- Buttons:
+  - Buy Now
+  - Order via WhatsApp
+
+--------------------------------------------------
+
+4. WHATSAPP ORDER SYSTEM (MANDATORY)
+
+Use number:
+03265677778
+
+When user clicks WhatsApp button:
+- Open WhatsApp chat
+- Pre-fill message:
+
+"Hello, I want to order:
+Product: [Product Name]
+Quantity: [X]
+Total Price: [Amount]"
+
+--------------------------------------------------
+
+5. BUY / CHECKOUT LOGIC (VERY IMPORTANT)
+
+When user clicks "Buy Now":
+
+STEP 1:
+Open checkout form with required fields:
+- Full Name
+- Phone Number
+- Address
+
+STEP 2:
+VALIDATION:
+If any field is empty:
+Show error message clearly:
+"Please fill all required details before placing order"
+
+Do NOT proceed further until filled.
+
+STEP 3:
+If all fields are filled:
+- Show smooth confirmation animation
+- Then show:
+  "Order Placed Successfully"
+
+--------------------------------------------------
+
+6. UX QUALITY (PREMIUM FEEL)
+
+- Smooth but subtle animations
+- Instant UI response
+- Clean spacing and alignment
+- Modern typography
+- Fast loading
+- Lazy loading for images
+
+--------------------------------------------------
+
+7. CODE REQUIREMENTS
+
+- Use React (preferred) or Next.js
+- Use Tailwind CSS
+- Component-based architecture
+- Store products in structured JSON
+- Clean, maintainable folder structure
+
+--------------------------------------------------
+
+8. REPLIT SETUP
+
+You MUST include:
+
+- Full working code
+- package.json
+- All dependencies installed
+- Clear instructions:
+  - how to run
+  - how to deploy
+
+The project must run instantly on Replit without errors.
+
+--------------------------------------------------
+
+9. FINAL QUALITY CHECK
+
+Before finishing:
+- Ensure all buttons work
+- Ensure checkout logic is complete
+- Ensure WhatsApp integration works
+- Ensure mobile view shows exactly 4 products initially
+- Ensure UI feels premium (not basic)
+
+--------------------------------------------------
+
+FINAL INSTRUCTION:
+
+If your output is basic, incomplete, or missing logic,
+automatically improve it before presenting.
+
+This must feel like a REAL eCommerce brand website — not a demo.
