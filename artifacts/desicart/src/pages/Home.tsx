@@ -39,13 +39,11 @@ export default function Home() {
   const [emblaRef, emblaApi] = useEmblaCarousel({ align: "start", loop: true });
 
   useEffect(() => {
-    if (emblaApi) {
-      // Auto scroll
-      const interval = setInterval(() => {
-        emblaApi.scrollNext();
-      }, 4000);
-      return () => clearInterval(interval);
-    }
+    if (!emblaApi) return;
+    const interval = setInterval(() => {
+      emblaApi.scrollNext();
+    }, 4000);
+    return () => clearInterval(interval);
   }, [emblaApi]);
 
   const bestSellers = products.filter(p => p.badge === "Bestseller" || p.rating >= 4.8).slice(0, 4);

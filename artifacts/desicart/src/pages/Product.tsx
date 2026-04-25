@@ -2,7 +2,7 @@ import { useParams, useLocation } from "wouter";
 import { products } from "@/data/products";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Star, Check, Shield, Truck, Minus, Plus } from "lucide-react";
+import { Star, Check, Shield, Truck, Minus, Plus, ShoppingCart, Zap, MessageCircle } from "lucide-react";
 import useEmblaCarousel from "embla-carousel-react";
 import { useCart } from "@/lib/CartContext";
 import { useToast } from "@/hooks/use-toast";
@@ -201,14 +201,29 @@ export default function Product() {
           <span className="font-bold text-lg text-primary">Rs. {(product.price * qty).toLocaleString()}</span>
         </div>
         <div className="flex gap-2">
-          <Button onClick={handleAddToCart} variant="outline" className="flex-1 h-12 rounded-full border-2">
+          <Button
+            onClick={handleAddToCart}
+            variant="outline"
+            className="flex-1 h-12 rounded-full border-2 px-2 gap-1.5 text-xs font-semibold"
+            aria-label="Add to cart"
+          >
+            <ShoppingCart className="w-4 h-4" />
             Cart
           </Button>
-          <Button onClick={handleBuyNow} className="flex-1 h-12 rounded-full bg-primary text-white">
+          <Button
+            onClick={handleBuyNow}
+            className="flex-1 h-12 rounded-full bg-primary text-white px-2 gap-1.5 text-xs font-semibold"
+            aria-label="Buy now"
+          >
+            <Zap className="w-4 h-4" />
             Buy
           </Button>
           <a href={getWhatsAppLink()} target="_blank" rel="noreferrer" className="flex-1">
-            <Button className="w-full h-12 rounded-full bg-[#25D366] text-white p-0">
+            <Button
+              className="w-full h-12 rounded-full bg-[#25D366] hover:bg-[#1ebe5a] text-white px-2 gap-1.5 text-xs font-semibold"
+              aria-label="Order via WhatsApp"
+            >
+              <MessageCircle className="w-4 h-4" />
               WhatsApp
             </Button>
           </a>
