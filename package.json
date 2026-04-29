@@ -3,10 +3,9 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
- 
-    "build": "npx pnpm install && npx pnpm -r --if-present run build",
+    "build": "pnpm -r --if-present run build",
     "typecheck:libs": "tsc --build",
-    "typecheck": "npm run typecheck:libs"
+    "typecheck": "pnpm run typecheck:libs"
   },
   "private": true,
   "devDependencies": {
